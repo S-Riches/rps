@@ -10,13 +10,19 @@ const computerMakeChoice = () => {
     return computerChoice;
 };
 
+const logScore = (userScoreNumber, computerScoreNumber) => {
+    const userScoreElement = document.getElementById("userScore");
+    const computerScoreElement = document.getElementById("computerScore");
+    userScoreElement.innerText = `User score : ${userScoreNumber}`;
+    computerScoreElement.innerText = `Computer score : ${computerScoreNumber}`;
+};
+
 //play the round - need to find a way to only execute once you get a value, could call the function within the event listener but that feels wrong.
-const playRound = () => {
-    let userChoice = getUserInput();
+const playRound = (userChoice) => {
     let computerChoice = computerMakeChoice();
     [userScore, computerScore] = compareChoices(userChoice, computerChoice);
-    console.log(userScore, computerScore);
-    console.log(userChoice, computerChoice);
+    logScore(userScore, computerScore);
+    output.scrollTop = output.scrollHeight;
 };
 // put info onto the screen
 const logToOutputBox = (message) => {
@@ -26,57 +32,39 @@ const logToOutputBox = (message) => {
 
 const compareChoices = (userChoice, computerChoice) => {
     if (userChoice === computerChoice) {
-        playRound();
+        logToOutputBox("User and computer tied.");
     } else if (userChoice === "Rock" && computerChoice == "Scissors") {
+        logToOutputBox(`Computer chose ${computerChoice}, User Wins!`);
         userScore += 1;
     } else if (userChoice === "Paper" && computerChoice == "Rock") {
+        logToOutputBox(`Computer chose ${computerChoice}, User Wins!`);
         userScore += 1;
     } else if (userChoice === "Scissors" && computerChoice == "Paper") {
+        logToOutputBox(`Computer chose ${computerChoice}, User Wins!`);
         userScore += 1;
     } else {
+        logToOutputBox(`Computer chose ${computerChoice}, Computer Wins!`);
         computerScore += 1;
     }
     return [userScore, computerScore];
 };
 
-// get the users input from the buttons, kind of the main loop as we want the user to input a choice and get a response.
+// Event listeners on each button, wait for one to be clicked, then play the round based off that input, then log to to the box the results.
 const getUserInput = () => {
     const rock = document.getElementById("Rock");
     const paper = document.getElementById("Paper");
     const scissors = document.getElementById("Scissors");
-    // needed to break out of the event listener once a button is clicked.
-    const controller = new AbortController();
-    // add event listeners on each button, wait for one to be clicked, then return that data.
-    rock.addEventListener(
-        "click",
-        () => {
-            userChoice = "Rock";
-            console.log(userChoice);
-            // break out of the event listener
-            controller.abort();
-            return userChoice;
-        },
-        { signal: controller.signal }
-    );
-    paper.addEventListener(
-        "click",
-        () => {
-            userChoice = "Paper";
-            console.log(userChoice);
-            controller.abort();
-            return userChoice;
-        },
-        { signal: controller.signal }
-    );
-    scissors.addEventListener(
-        "click",
-        () => {
-            userChoice = "Scissors";
-            console.log(userChoice);
-            controller.abort();
-            return userChoice;
-        },
-        { signal: controller.signal }
-    );
+    rock.addEventListener("click", () => {
+        userChoice = "Rock";
+        playRound(userChoice);
+    });
+    paper.addEventListener("click", () => {
+        userChoice = "Paper";
+        playRound(userChoice);
+    });
+    scissors.addEventListener("click", () => {
+        userChoice = "Scissors";
+        playRound(userChoice);
+    });
 };
-playRound();
+getUserInput();

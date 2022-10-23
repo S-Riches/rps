@@ -16,9 +16,22 @@ h1 {
     color: #040404;
     border: none;
     outline: none;
-    font-size: 2rem;
+    font-size: 4rem;
     border-radius: 1vw;
     margin-bottom: 10vw;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    #output {
+        font-size: 1rem;
+        width: 90%;
+        border-radius: 2vw;
+    }
+}
+
+h2 {
+    text-align: center;
 }
 .outputBox {
     display: flex;
