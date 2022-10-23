@@ -1,6 +1,6 @@
+// define variables
 const output = document.getElementById("output");
 const choices = ["Rock", "Paper", "Scissors"];
-// define variables
 let userScore = 0;
 let computerScore = 0;
 
@@ -29,7 +29,7 @@ const logToOutputBox = (message) => {
     const newText = document.createTextNode(message + "\n");
     output.appendChild(newText);
 };
-
+// yucky if chain for comparing the choices to add score, returns array
 const compareChoices = (userChoice, computerChoice) => {
     if (userChoice === computerChoice) {
         logToOutputBox("User and computer tied.");
@@ -67,4 +67,5 @@ const getUserInput = () => {
         playRound(userChoice);
     });
 };
+// start game on script load (after page loads.)
 getUserInput();
